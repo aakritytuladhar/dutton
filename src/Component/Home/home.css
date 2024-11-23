@@ -1,0 +1,60 @@
+.carosalText {
+  margin-top: 3rem;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: "left right";
+}
+.carosalLeft {
+  padding: 0rem 9rem 0rem 3rem;
+  grid-area: left;
+}
+.carosalLeft h1 {
+  font-weight: 800;
+  font-size: 44px;
+}
+.carosalRight {
+  grid-area: right;
+}
+.carosalRight p {
+  padding: 0rem 2rem 0rem 2rem;
+  font-size: larger;
+}
+.cardSection {
+  padding: 2rem;
+}
+.cardSection .cardText {
+  width: 44%;
+  margin-left: 3rem;
+}
+.cardSection h1 {
+  font-weight: 400;
+  font-size: 41px;
+}
+.cardDiv {
+  margin: 2rem;
+}
+.brandDiv .brandContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5%;
+  /* background: ", */
+  padding: 20px;
+  height: 200px;
+}
+.brandContainer .brandImg {
+  width: 45%;
+  height: auto;
+  margin-bottom: 5px;
+}
+.brandContainer h3 {
+  font-size: 16px;
+  text-align: center;
+}
+.brandDiv h1 {
+  text-align: center;
+  font-weight: 800;
+}
