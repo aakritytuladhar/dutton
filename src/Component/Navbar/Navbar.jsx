@@ -10,10 +10,12 @@ import {
   ListItemButton,
   ListItemText,
   Typography,
+  Button,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import logo from "../Assets/logo2.png";
 import "./navbar.css";
+
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -21,7 +23,14 @@ const Navbar = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const navItems = ["Home", "About", "Contact", "Service", "Loan Calculator"];
+  const navItems = [
+    "Home",
+    "About",
+    "Contact",
+    "Service",
+    "Loan Calculator",
+    "Log In",
+  ];
 
   const drawer = (
     <Box
@@ -48,7 +57,7 @@ const Navbar = () => {
 
   return (
     <AppBar
-      position="static"
+      position="fixed"
       color="default"
       sx={{
         boxShadow: "none",
@@ -64,19 +73,32 @@ const Navbar = () => {
 
         {/* Desktop Navigation Links */}
         <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
-          {navItems.map((item) => (
-            <Typography
-              key={item}
-              variant="body1"
-              sx={{
-                color: "white",
-                ml: 2,
-                cursor: "pointer",
-                "&:hover": { color: "white" },
-              }}>
-              {item}
-            </Typography>
-          ))}
+          {navItems.map((item) =>
+            item === "Log In" ? (
+              <Button
+                key={item}
+                sx={{
+                  backgroundColor: "white",
+                  color: "black",
+                  borderRadius: 0,
+                  ml: 2,
+                }}>
+                {item}
+              </Button>
+            ) : (
+              <Typography
+                key={item}
+                variant="body1"
+                sx={{
+                  color: "white",
+                  ml: 2,
+                  cursor: "pointer",
+                  "&:hover": { color: "white" },
+                }}>
+                {item}
+              </Typography>
+            )
+          )}
         </Box>
 
         {/* Mobile Hamburger Icon */}
