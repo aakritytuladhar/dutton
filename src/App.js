@@ -1,21 +1,33 @@
-import logo from "./logo.svg";
-import "./App.css";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import Navbar from "./Component/Navbar/Navbar";
-import Footer from "./Component/Footer/Footer";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Component/Home/Home";
-function App() {
+import Login from "./Component/Login/Login";
+import Footer from "./Component/Footer/Footer";
+function AppContent() {
+  const location = useLocation();
+
   return (
     <>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-        </Routes>
-        <Footer />
-      </Router>
+      {location.pathname !== "/Login" && <Navbar />}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/Login" element={<Login />} />
+      </Routes>
+      {/* Conditionally render Footer */}
+      {location.pathname !== "/Login" && <Footer />}
     </>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
+}

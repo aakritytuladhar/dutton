@@ -15,10 +15,12 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import logo from "../Assets/logo2.png";
 import "./navbar.css";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const navigate = useNavigate();
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -32,6 +34,9 @@ const Navbar = () => {
     "Log In",
   ];
 
+  const handleLogin = () => {
+    navigate("/Login");
+  };
   const drawer = (
     <Box
       sx={{
@@ -46,7 +51,13 @@ const Navbar = () => {
       <List>
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
+            <ListItemButton
+              sx={{ textAlign: "center" }}
+              onClick={() => {
+                if (item === "Log In") {
+                  handleLogin();
+                }
+              }}>
               <ListItemText primary={item} sx={{ color: "white" }} />
             </ListItemButton>
           </ListItem>
@@ -77,6 +88,7 @@ const Navbar = () => {
             item === "Log In" ? (
               <Button
                 key={item}
+                onClick={handleLogin}
                 sx={{
                   backgroundColor: "white",
                   color: "black",
