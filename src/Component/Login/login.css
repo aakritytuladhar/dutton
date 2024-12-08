@@ -11,14 +11,18 @@
   width: 100%;
   height: 100%;
 }
+.dialogTitle {
+  background-color: black;
+  color: white;
+  height: 5rem;
+}
 
 .loginLeft {
   flex: 3;
-  padding: 1rem;
 }
 .loginRight img {
-  max-width: 100%;
-  max-height: auto;
+  width: 100%;
+  height: 961px;
   object-fit: cover;
 }
 .loginRight {
@@ -43,6 +47,14 @@
 .signupNow,
 .dialogTitle {
   display: flex;
+  justify-content: center;
+}
+.signupLink {
+  cursor: pointer;
+  text-decoration: none;
+}
+.signUp-loginCode {
+  display: flex;
 }
 .copyRight {
   position: absolute;
@@ -56,29 +68,87 @@ hr {
   margin: 1rem 0rem 1rem 0rem;
 }
 @media (max-width: 768px) {
-  /* Adjust Dialog width and content for smaller screens */
   .MuiDialog-paper {
     width: 90%;
-    height: auto; /* Allow height to adjust dynamically */
-    max-width: 90%; /* Allow the dialog to take up more width on small screens */
+    height: auto;
+    max-width: 90%;
   }
 
   .loginLeft,
   .loginRight {
-    flex: 1 1 100%; /* Allow both sections to take up full width on smaller screens */
+    flex: 1 1 100%;
     padding: 10px;
   }
 
   .loginRight img {
-    max-width: 100%; /* Ensure the image does not overflow */
-    height: auto; /* Maintain image aspect ratio */
+    max-width: 100%;
+    height: auto;
   }
-
   .toggleDiv {
-    flex-direction: column; /* Stack remember me and forgot password vertically on small screens */
+    flex-direction: column;
   }
 
   .buttons {
     gap: 15px;
   }
+}
+/* sign in DIv */
+
+.leftContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.leftContent {
+  width: 400px;
+  height: 100%;
+  padding: 20px;
+}
+.leftContent h4 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+.leftContent h6 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+}
+.leftContent label {
+  display: block;
+  margin: 1rem 0rem 1rem 0rem;
+  font-size: 14px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.buttons {
+  margin-top: 20px;
+}
+.signinNow {
+  display: flex;
+
+  align-items: center;
+  flex-direction: column;
+}
+.signinNow p {
+  margin: 1rem;
+}
+.copyRight {
+  position: absolute;
+  left: 10px;
+  bottom: 0;
+  top: 1;
+  color: #888;
 }

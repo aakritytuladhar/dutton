@@ -39,7 +39,7 @@ const CardBox = () => {
     },
   ];
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", gap: "26px" }}>
+    <div style={{ display: "flex", flexWrap: "wrap", gap: "2.6%" }}>
       {cardsData.map((card) => (
         <Card sx={{ maxWidth: 320 }} key={card.id}>
           <CardActionArea>

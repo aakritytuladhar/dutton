@@ -44,16 +44,27 @@ const Footer = () => {
         <div className="col2">
           <h4>More Pages</h4>
           <div className="pageContainer">
-            {" "}
             <div className="morePage">
-              <p> Privacy and Policy </p>
-              <p>Terms and Condition </p>
-              <p>Blog Page </p>
+              <p>
+                <a href="/privacy-policy">Privacy and Policy</a>
+              </p>
+              <p>
+                <a href="/terms-and-conditions">Terms and Conditions</a>
+              </p>
+              <p>
+                <a href="/blog">Blog Page</a>
+              </p>
             </div>
             <div className="morePage2">
-              <p> Online Application</p>
-              <p>Novated fleet & Leasing</p>
-              <p>FAQ</p>
+              <p>
+                <a href="/online-application">Online Application</a>
+              </p>
+              <p>
+                <a href="/novated-fleet-leasing">Novated Fleet & Leasing</a>
+              </p>
+              <p>
+                <a href="/faq">FAQ</a>
+              </p>
             </div>
           </div>
         </div>
