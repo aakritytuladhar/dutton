@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./login.css";
 import Dialog from "@mui/material/Dialog";
 
@@ -26,8 +26,21 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();
+  const [checked, setChecked] = useState(false);
 
+  const navigate = useNavigate();
+  useEffect(() => {
+    const rememberMe = localStorage.getItem("rememberMe");
+    if (rememberMe === "true") {
+      setChecked(true);
+    }
+  }, []);
+
+  // Handle the switch toggle
+  const handleSwitchChange = (event) => {
+    setChecked(event.target.checked);
+    localStorage.setItem("rememberMe", event.target.checked); // Store the value in localStorage
+  };
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => event.preventDefault();
@@ -48,12 +61,26 @@ const Login = () => {
       );
 
       const data = response.data;
-      console.log("tes", data);
-      console.log(username, password);
+      console.log("data", data);
       if (data.message === "Login successful") {
+        const storedUser = localStorage.getItem("userData");
+
+        const jsonData = data ? JSON.parse(storedUser) : {};
+        console.log("1", jsonData);
         alert("Login successful");
-        navigate("/");
-        localStorage.setItem("isLoggedIn", "true");
+        if (data.vip === "DUTTON2024") {
+          sessionStorage.setItem("isVip", true); // Store VIP status for session.
+
+          navigate("/vip-home");
+          window.location.reload();
+        } else {
+          sessionStorage.setItem("isVip", false);
+          // localStorage.setItem("isLoggedIn", "true");
+
+          navigate("/");
+          window.location.reload();
+        }
+        sessionStorage.setItem("Loggedin", JSON.stringify(true));
       } else {
         console.log("Login failed");
 
@@ -78,14 +105,15 @@ const Login = () => {
         sx={{
           "& .MuiDialog-paper": {
             width: "100%",
-            height: "100%",
+            height: "70%",
             maxWidth: "none",
             overflow: "hidden",
           },
           "& .MuiBackdrop-root": {
             backgroundColor: "white",
           },
-        }}>
+        }}
+      >
         <div className="dialogContent">
           <div className="loginLeft">
             <div className="dialogTitle">
@@ -96,16 +124,17 @@ const Login = () => {
                 <h4>Nice To See You Again</h4>
                 <div className="loginForm">
                   <FormControl className="loginMuiForm" onSubmit={handleSubmit}>
-                    <label>Login</label>
+                    <label>UserName</label>
                     <TextField
                       size="small"
-                      placeholder="Enter your email"
+                      placeholder="Enter your UserName"
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       required
                     />
                     <label>Password</label>
                     <OutlinedInput
+                      placeholder="Enter your password"
                       id="outlined-adornment-password"
                       type={showPassword ? "text" : "password"}
                       size="small"
@@ -123,7 +152,8 @@ const Login = () => {
                             onClick={handleClickShowPassword}
                             onMouseDown={handleMouseDownPassword}
                             onMouseUp={handleMouseUpPassword}
-                            edge="end">
+                            edge="end"
+                          >
                             {showPassword ? <VisibilityOff /> : <Visibility />}
                           </IconButton>
                         </InputAdornment>
@@ -132,9 +162,15 @@ const Login = () => {
                     <div className="buttons">
                       <div className="toggleDiv">
                         <div className="rememberDiv">
-                          <Switch {...label} defaultChecked />
+                          <Switch
+                            checked={checked}
+                            onChange={handleSwitchChange}
+                            name="rememberMe"
+                            inputProps={{ "aria-label": "Remember me switch" }}
+                          />
                           <p>Remember me</p>
                         </div>
+
                         <a href="#" className="signupLink">
                           Forgot Password?
                         </a>
@@ -142,25 +178,9 @@ const Login = () => {
                       <Button
                         variant="contained"
                         sx={{ width: "100%" }}
-                        onClick={handleSubmit}>
+                        onClick={handleSubmit}
+                      >
                         Sign In
-                      </Button>
-                      <hr />
-                      <Button
-                        // variant="contained"
-                        sx={{
-                          backgroundColor: "black",
-                          color: "white",
-                          width: "100%",
-                        }}
-                        startIcon={
-                          <img
-                            src={google}
-                            alt="Google"
-                            style={{ width: "20px", height: "20px" }}
-                          />
-                        }>
-                        Or Sign in with Google
                       </Button>
                     </div>
                   </FormControl>
@@ -171,7 +191,8 @@ const Login = () => {
                     <a
                       href="#"
                       className="signupLink"
-                      onClick={handleSignInPage}>
+                      onClick={handleSignInPage}
+                    >
                       Sign up now
                     </a>
                   </p>

@@ -17,30 +17,31 @@ import logo from "../Assets/logo2.png";
 import "./navbar.css";
 import { useNavigate } from "react-router-dom";
 
+const navItems = [
+  { label: "Home", path: "/" },
+  { label: "About", path: "/about" },
+  { label: "Contact Us", path: "/contact-us" },
+  { label: "Loan Calculator", path: "/loan-calculator" },
+];
+
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isVip, setisVip] = useState(false);
   const navigate = useNavigate();
+
+  // Check login state and VIP status from sessionStorage on initial load
+  useEffect(() => {
+    const userLoggedIn = sessionStorage.getItem("Loggedin") === "true";
+    const vipStatus = sessionStorage.getItem("isVip") === "true";
+    setIsLoggedIn(userLoggedIn);
+    setisVip(vipStatus);
+  }, []);
 
   // Handle drawer toggle for mobile
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
-  // Define navigation items and their respective routes
-  const navItems = [
-    { label: "Home", path: "/" },
-    { label: "About", path: "/about" },
-    { label: "Contact Us", path: "/contact-us" },
-    { label: "Service", path: "/service" },
-    { label: "Loan Calculator", path: "/loan-calculator" },
-  ];
-
-  // Check login status on component mount
-  useEffect(() => {
-    const userLoggedIn = localStorage.getItem("isLoggedIn"); // Retrieve login status from localStorage
-    setIsLoggedIn(userLoggedIn === "true"); // Set state based on stored value
-  }, []); // Empty dependency array ensures it runs only on component mount
 
   // Handle navigation
   const handleNavigation = (path) => {
@@ -49,16 +50,20 @@ const Navbar = () => {
 
   // Handle log out
   const handleLogOut = () => {
-    localStorage.removeItem("isLoggedIn"); // Remove login status from localStorage
-    setIsLoggedIn(false); // Update state to trigger re-render
-    navigate("/login"); // Redirect to login page
+    sessionStorage.removeItem("Loggedin"); // Remove login status
+    sessionStorage.removeItem("isVip"); // Remove VIP status
+    setIsLoggedIn(false); // Update state
+    setisVip(false);
+    navigate("/login");
   };
 
   // Handle log in
   const handleLogIn = () => {
-    localStorage.setItem("isLoggedIn", "true"); // Persist login status in localStorage
-    setIsLoggedIn(true); // Update state to trigger re-render
-    navigate("/"); // Navigate after login
+    sessionStorage.setItem("Loggedin", "true"); // Set login status
+    sessionStorage.setItem("isVip", "false"); // Default VIP status to false
+    setIsLoggedIn(true); // Update state
+    setisVip(false);
+    navigate("/login");
   };
 
   // Drawer content (mobile view)
@@ -72,51 +77,54 @@ const Navbar = () => {
       }}
       role="presentation"
       onClick={handleDrawerToggle}
-      onKeyDown={handleDrawerToggle}>
+      onKeyDown={handleDrawerToggle}
+    >
       <List>
         {navItems.map(({ label, path }) => (
           <ListItem key={label} disablePadding>
             <ListItemButton
               sx={{ textAlign: "center" }}
-              onClick={() => handleNavigation(path)}>
+              onClick={() => handleNavigation(path)}
+            >
               <ListItemText primary={label} sx={{ color: "white" }} />
             </ListItemButton>
           </ListItem>
         ))}
-        {/* Show Log In if not logged in, Show Log Out if logged in */}
-        {!isLoggedIn ? (
-          <ListItem disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }} onClick={handleLogIn}>
-              <ListItemText primary="Log In" sx={{ color: "white" }} />
-            </ListItemButton>
-          </ListItem>
-        ) : (
-          <ListItem disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }} onClick={handleLogOut}>
-              <ListItemText primary="Log Out" sx={{ color: "white" }} />
-            </ListItemButton>
-          </ListItem>
-        )}
+        {/* Conditionally render Log In or Log Out */}
+        <ListItem disablePadding>
+          <ListItemButton
+            sx={{ textAlign: "center" }}
+            onClick={isLoggedIn ? handleLogOut : handleLogIn}
+          >
+            <ListItemText
+              primary={isLoggedIn ? "Log Out" : "Log In"}
+              sx={{ color: "white" }}
+            />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Box>
   );
+
   const handleLogo = (e) => {
     e.preventDefault();
     navigate("/");
   };
+
   return (
     <AppBar
       position="fixed"
-      color="default"
       sx={{
         boxShadow: "none",
-        backgroundColor: "black",
-      }}>
+        backgroundColor: isVip ? "white" : "black", // Dynamically set background color
+      }}
+    >
       <Toolbar
         sx={{
           display: "flex",
           justifyContent: "space-between",
-        }}>
+        }}
+      >
         {/* Logo */}
         <img src={logo} alt="logo" width={60} onClick={handleLogo} />
 
@@ -124,45 +132,32 @@ const Navbar = () => {
         <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
           {navItems.map(({ label, path }) => (
             <Typography
-              key={`${label}-text`}
+              key={label}
               variant="body1"
               sx={{
-                color: "white",
+                color: isVip ? "black" : "white", // Adjust text color for VIP
                 ml: 2,
                 cursor: "pointer",
-                "&:hover": { color: "white" },
+                "&:hover": { color: isVip ? "gray" : "lightgray" },
               }}
-              onClick={() => handleNavigation(path)}>
+              onClick={() => handleNavigation(path)}
+            >
               {label}
             </Typography>
           ))}
 
           {/* Conditionally render Log In or Log Out button */}
-          {!isLoggedIn ? (
-            <Button
-              key="login-button"
-              onClick={handleLogIn} // assuming path to login
-              sx={{
-                backgroundColor: "white",
-                color: "black",
-                borderRadius: 0,
-                ml: 2,
-              }}>
-              Log In
-            </Button>
-          ) : (
-            <Button
-              key="logout-button"
-              onClick={handleLogOut}
-              sx={{
-                backgroundColor: "white",
-                color: "black",
-                borderRadius: 0,
-                ml: 2,
-              }}>
-              Log Out
-            </Button>
-          )}
+          <Button
+            onClick={isLoggedIn ? handleLogOut : handleLogIn}
+            sx={{
+              backgroundColor: isVip ? "black" : "white",
+              color: isVip ? "white" : "black",
+              borderRadius: 0,
+              ml: 2,
+            }}
+          >
+            {isLoggedIn ? "Log Out" : "Log In"}
+          </Button>
         </Box>
 
         {/* Mobile Hamburger Icon */}
@@ -171,7 +166,11 @@ const Navbar = () => {
           color="inherit"
           aria-label="menu"
           onClick={handleDrawerToggle}
-          sx={{ display: { xs: "block", md: "none" }, color: "white" }}>
+          sx={{
+            display: { xs: "block", md: "none" },
+            color: isVip ? "black" : "white", // Adjust icon color for VIP
+          }}
+        >
           <MenuIcon />
         </IconButton>
       </Toolbar>
@@ -182,8 +181,9 @@ const Navbar = () => {
         open={mobileOpen}
         onClose={handleDrawerToggle}
         PaperProps={{
-          sx: { backgroundColor: "white" },
-        }}>
+          sx: { backgroundColor: isVip ? "white" : "black" },
+        }}
+      >
         {drawer}
       </Drawer>
     </AppBar>

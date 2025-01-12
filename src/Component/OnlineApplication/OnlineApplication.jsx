@@ -15,8 +15,7 @@ import personalLoan from "../Assets/loan 2.png";
 
 const OnlineApplication = () => {
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [email, setEmail] = useState("");
   const cardData = [
     {
       title: "Car Loans",
@@ -49,7 +48,8 @@ const OnlineApplication = () => {
               justifyContent: "space-around",
               flexWrap: "wrap",
               gap: "2%",
-            }}>
+            }}
+          >
             {cardData.map((card, index) => (
               <Card sx={{ width: "50%", maxWidth: "365px" }} key={index}>
                 <CardActionArea>
@@ -62,7 +62,8 @@ const OnlineApplication = () => {
                   <CardContent>
                     <Typography
                       variant="body2"
-                      sx={{ color: "text.secondary" }}>
+                      sx={{ color: "text.secondary" }}
+                    >
                       {card.title}
                     </Typography>
                     <h4>{card.description}</h4>
@@ -78,7 +79,8 @@ const OnlineApplication = () => {
           <div className="onlineApplicationDiv">
             <FormControl
               className="onlineApplication-form"
-              onSubmit={handleSubmit}>
+              onSubmit={handleSubmit}
+            >
               <div className="row">
                 <div className="field">
                   <label>Name</label>
@@ -96,7 +98,7 @@ const OnlineApplication = () => {
                     size="small"
                     value={username}
                     placeholder="Enter your email"
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                     required
                   />
                 </div>
@@ -110,7 +112,8 @@ const OnlineApplication = () => {
                       key={index}
                       variant="contained"
                       color="primary"
-                      style={{ margin: "10px" }}>
+                      style={{ margin: "10px" }}
+                    >
                       {label}
                     </Button>
                   ))}
@@ -120,7 +123,8 @@ const OnlineApplication = () => {
                 <Button
                   variant="contained"
                   sx={{ alignItems: "center", backgroundColor: "black" }}
-                  onClick={handleSubmit}>
+                  onClick={handleSubmit}
+                >
                   Submit Application
                 </Button>
               </div>

@@ -32,7 +32,8 @@ const Footer = () => {
                 height: 55,
                 color: "white",
                 borderRadius: 0,
-              }}>
+              }}
+            >
               Subscribe
             </Button>
           </div>
@@ -46,13 +47,10 @@ const Footer = () => {
           <div className="pageContainer">
             <div className="morePage">
               <p>
-                <a href="/privacy-policy">Privacy and Policy</a>
+                <a href="/privacy">Privacy and Policy</a>
               </p>
               <p>
                 <a href="/terms-and-conditions">Terms and Conditions</a>
-              </p>
-              <p>
-                <a href="/blog">Blog Page</a>
               </p>
             </div>
             <div className="morePage2">
@@ -61,9 +59,6 @@ const Footer = () => {
               </p>
               <p>
                 <a href="/novated-fleet-leasing">Novated Fleet & Leasing</a>
-              </p>
-              <p>
-                <a href="/faq">FAQ</a>
               </p>
             </div>
           </div>

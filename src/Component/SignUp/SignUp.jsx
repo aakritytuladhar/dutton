@@ -1,16 +1,8 @@
 import React, { useState } from "react";
 import "../Login/login.css";
-
 import axios from "axios";
 import wallapaper from "../Assets/signin.jpg";
-import {
-  IconButton,
-  FormControl,
-  Switch,
-  TextField,
-  Button,
-  Checkbox,
-} from "@mui/material";
+import { IconButton, TextField, Button, Checkbox } from "@mui/material";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
@@ -26,26 +18,96 @@ const SignUp = () => {
   const [address, setAddress] = useState("");
   const [vipCode, setVipCode] = useState("");
   const [contact, setContact] = useState("");
-
+  const [otp, setOtp] = useState("");
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpTimer, setOtpTimer] = useState(30);
   const [errorMessage, setErrorMessage] = useState("");
-  const [open, setOpen] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setConfirmShowPassword] = useState(false);
-  const handleClickShowConfirmPassword = () =>
-    setConfirmShowPassword((show) => !show);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleMouseDownPassword = (event) => event.preventDefault();
-
-  const handleMouseUpPassword = (event) => event.preventDefault();
-
+  const isVip = vipCode === "DUTTON2024";
   const navigate = useNavigate();
-  const handleChange = (e) => {
-    setChecked(e.target.checked);
+
+  const handleSendOtp = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/duttonphp/SiginApi.php",
+        { sendOtp: true, email },
+        { withCredentials: true }
+      );
+      if (response.data.message === "OTP sent successfully") {
+        setOtpSent(true);
+        setOtpTimer(30);
+        const timer = setInterval(() => {
+          setOtpTimer((prev) => {
+            if (prev === 1) clearInterval(timer);
+            return prev - 1;
+          });
+        }, 1000);
+      } else {
+        alert(response.data.message);
+        setErrorMessage(response.data.message);
+      }
+    } catch (error) {
+      alert("Error sending OTP.");
+      setErrorMessage("Error sending OTP.");
+    }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleVerifyOtp = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/duttonphp/SiginApi.php",
+        {
+          otp,
+          username,
+          password,
+          confirmPassword,
+          email,
+          contact,
+          address,
+          vipCode,
+        },
+        { withCredentials: true } // Include credentials for sessions
+      );
+      // const { message, isVip } = response.data;
+      const userData = {
+        username,
+        password,
+        confirmPassword,
+        email,
+        contact,
+        address,
+        isVip,
+      };
+      console.log("12", response.data.message);
+      if (response.data.message === "User registered successfully") {
+        const userData = {
+          username,
+          email,
+          contact,
+          address,
+          isVip,
+        };
+        localStorage.setItem("userData", JSON.stringify(userData));
+        alert("Registration successful!");
+        if (isVip) {
+          navigate("/vipHome");
+        } else {
+          navigate("/");
+        }
+        // }
+      } else {
+        alert(response.data.message);
+        setErrorMessage(response.data.message);
+      }
+    } catch (error) {
+      alert("Registration failed. Please try again.");
+      setErrorMessage("Registration failed. Please try again.");
+    }
+  };
+
+  const handleSubmit = async () => {
     try {
       const response = await axios.post(
         "http://localhost:8080/duttonphp/SiginApi.php",
@@ -57,32 +119,21 @@ const SignUp = () => {
           contact,
           address,
           vipCode,
-        },
-        {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          },
         }
       );
-
-      const data = response.data;
-      console.log(data);
-      if (data.message === "User registered successfully") {
+      if (response.data.message === "User registered successfully") {
         alert("Registration successful!");
         navigate("/login");
       } else {
-        setErrorMessage(data.message);
+        alert(response.data.message);
+        setErrorMessage(response.data.message);
       }
     } catch (error) {
-      console.error("Error during registration", error);
+      alert("Registration failed. Please try again.");
       setErrorMessage("Registration failed. Please try again.");
     }
   };
-  const handleLoginPage = (e) => {
-    e.preventDefault();
-    navigate("/login");
-  };
+
   return (
     <div className="signInDiv">
       <div className="dialogContent">
@@ -94,7 +145,7 @@ const SignUp = () => {
             <div className="leftContent">
               <h4>Get Started Now</h4>
               <div className="loginForm">
-                <form className="loginMuiForm" onSubmit={handleSubmit}>
+                <form className="loginMuiForm">
                   <label>Full Name</label>
                   <TextField
                     size="small"
@@ -133,7 +184,6 @@ const SignUp = () => {
                   />
                   <label>Password</label>
                   <OutlinedInput
-                    id="outlined-adornment-password"
                     sx={{ width: "100%" }}
                     type={showPassword ? "text" : "password"}
                     size="small"
@@ -142,14 +192,7 @@ const SignUp = () => {
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
-                          aria-label={
-                            showPassword
-                              ? "hide the password"
-                              : "display the password"
-                          }
-                          onClick={handleClickShowPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end">
+                          onClick={() => setShowPassword((prev) => !prev)}>
                           {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
                       </InputAdornment>
@@ -159,7 +202,6 @@ const SignUp = () => {
                   <label>Confirm Password</label>
                   <OutlinedInput
                     sx={{ width: "100%" }}
-                    id="outlined-adornment-confirm-password"
                     type={showConfirmPassword ? "text" : "password"}
                     size="small"
                     value={confirmPassword}
@@ -167,14 +209,9 @@ const SignUp = () => {
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
-                          aria-label={
-                            showConfirmPassword
-                              ? "hide the password"
-                              : "display the password"
-                          }
-                          onClick={handleClickShowConfirmPassword}
-                          onMouseDown={handleMouseDownPassword}
-                          edge="end">
+                          onClick={() =>
+                            setConfirmShowPassword((prev) => !prev)
+                          }>
                           {showConfirmPassword ? (
                             <VisibilityOff />
                           ) : (
@@ -195,31 +232,58 @@ const SignUp = () => {
                   <div className="signUp-loginCode">
                     <Checkbox
                       checked={checked}
-                      onChange={handleChange}
-                      inputProps={{ "aria-label": "controlled" }}
+                      onChange={(e) => setChecked(e.target.checked)}
                     />
-                    <p> I agree to the terms & policy</p>
+                    <p>I agree to the terms & policy</p>
                   </div>
-                  <div className="buttons">
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      sx={{ width: "100%", backgroundColor: "black" }}>
-                      Sign Up
-                    </Button>
-                  </div>
+
+                  <Button
+                    type="button"
+                    variant="contained"
+                    sx={{ width: "100%", backgroundColor: "black" }}
+                    onClick={handleSendOtp}>
+                    Send OTP
+                  </Button>
+                  {otpSent && (
+                    <>
+                      <label>Enter OTP</label>
+                      <TextField
+                        size="small"
+                        sx={{ width: "100%" }}
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value)}
+                        required
+                      />
+                      <Button
+                        type="button"
+                        variant="contained"
+                        sx={{ width: "100%", backgroundColor: "black" }}
+                        onClick={handleVerifyOtp}>
+                        Verify OTP
+                      </Button>
+                    </>
+                  )}
+                  {errorMessage && (
+                    <p style={{ color: "red", textAlign: "center" }}>
+                      {errorMessage}
+                    </p>
+                  )}
+                  <Button
+                    type="button"
+                    variant="contained"
+                    sx={{ width: "100%", backgroundColor: "black" }}
+                    onClick={handleSubmit}
+                    disabled={!otpSent || otpTimer > 0 || otp !== "123456"}>
+                    Sign Up
+                  </Button>
                 </form>
               </div>
-
-              <div className="signinNow">
-                <p>OR</p>
-                <p style={{ marginTop: 0 }}>
-                  Already have an account?{" "}
-                  <a href="#" className="signupLink" onClick={handleLoginPage}>
-                    Login now
-                  </a>
-                </p>
-              </div>
+              <p>
+                Already have an account?{" "}
+                <a href="#" onClick={() => navigate("/login")}>
+                  Login now
+                </a>
+              </p>
               <p className="copyRight">© Dutton Finance 2024</p>
             </div>
           </div>

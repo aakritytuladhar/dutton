@@ -1,0 +1,27 @@
+.privacy-policy {
+  margin-top: 5rem;
+  padding: 0rem 5rem 0rem 5rem;
+  line-height: 1.6;
+}
+
+.privacy-policy h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.privacy-policy section {
+  margin-bottom: 20px;
+}
+
+.privacy-policy ul {
+  margin-left: 20px;
+}
+
+.privacy-policy a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.privacy-policy a:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,155 @@
+.about-us-main {
+  margin-top: 5rem;
+  padding: 0rem 5rem 0rem 5rem;
+}
+.about-us-main .container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Adds space between rows */
+  padding: 20px;
+}
+
+.about-us-main .row,
+.about-us-main .row2,
+.about-us-main .row3,
+.about-us-main .row6 {
+  display: flex;
+  gap: 10px; /* Space between columns */
+}
+
+.about-us-main .column,
+.about-us-main .column1,
+.about-us-main .column2,
+.about-us-main .column3,
+.about-us-main .column4,
+.about-us-main .column7,
+.about-us-main .column8 {
+  flex: 1; /* Each column takes up equal width */
+  padding: 20px;
+}
+
+.about-us-main .row1 {
+  display: flex;
+  flex-direction: column; /* Stacks children vertically */
+  align-items: flex-start; /* Aligns items to the left (or you can change this as needed) */
+}
+
+.about-us-main h3,
+.about-us-main .row1 p,
+.about-us-main button {
+  margin: 10px 0; /* Adds some spacing between the elements */
+}
+.about-us-main .row1 p {
+  width: 55%;
+}
+.column2 img,
+.column4 img,
+.column8 img {
+  border-radius: 5px;
+  width: 100%;
+  height: 457px;
+  object-fit: cover;
+}
+.rowTitle {
+  text-align: center;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns per row */
+  gap: 20px; /* Space between boxes */
+  margin: 20px;
+}
+
+.box {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.box-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.social-links a {
+  display: inline-block;
+  margin: 0 5px;
+  text-decoration: none;
+  color: #0077b5; /* LinkedIn-like blue */
+}
+
+.social-links a:hover {
+  text-decoration: underline;
+}
+
+.timeline {
+  position: relative;
+  margin: 20px auto;
+  padding: 20px 0;
+  /* width: 80%; */
+}
+
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: 25px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: #ccc;
+  z-index: 1;
+}
+
+.timeline-icon {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 2px solid #000;
+  position: relative;
+  z-index: 2;
+}
+
+.timeline-icon img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+}
+
+.timeline-content {
+  margin-left: 80px;
+}
+
+.timeline-content h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.timeline-content p {
+  margin: 5px 0 0;
+  color: #555;
+}
+@media (max-width: 768px) {
+  .column2 img,
+  .column8 img .column4 img {
+    max-width: 100%;
+    height: 200px;
+  }
+}

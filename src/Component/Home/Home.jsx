@@ -4,7 +4,11 @@ import "./home.css";
 import { Button } from "@mui/material";
 import CardBox from "./CardSection/CardBox";
 import Brand from "./BrandSection/Brand";
+import { useNavigate } from "react-router-dom";
+
 const Home = () => {
+  const navigate = useNavigate();
+
   return (
     <div>
       <div className="carosalSection">
@@ -26,7 +30,9 @@ const Home = () => {
                 color: "white",
                 borderRadius: 0,
                 marginLeft: "2rem",
-              }}>
+              }}
+              onClick={() => navigate("/loan-calculator")}
+            >
               Calculate Now
             </Button>
           </div>

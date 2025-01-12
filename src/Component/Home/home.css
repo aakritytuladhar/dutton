@@ -58,3 +58,96 @@
   text-align: center;
   font-weight: 800;
 }
+/* VIP */
+.vip-home-main {
+  margin-top: 5rem;
+}
+.vip-home-main .welcome {
+  background-color: black;
+  color: white;
+  display: flex;
+  padding: 1rem;
+  justify-content: space-between;
+  height: 6rem;
+}
+.welcome img {
+  /* width: 50%; */
+  height: 110px;
+  object-fit: cover;
+}
+.explusiveDeals {
+  padding: 0rem 5rem 0rem 5rem;
+}
+.contact-advisor {
+  margin-top: 5rem;
+  padding: 1rem;
+  background-color: black;
+  color: white;
+}
+
+.contact-container {
+  display: flex;
+  gap: 20px; /* Adds space between columns */
+  flex-wrap: wrap; /* Ensures responsiveness */
+}
+
+.contact-container .column {
+  flex: 1; /* Distributes equal width for both columns */
+  min-width: 300px; /* Ensures columns don't shrink too much on smaller screens */
+}
+
+.contact-container .row-column {
+  padding-right: 20px;
+}
+
+.contact-container .form-column {
+  padding-left: 20px;
+}
+
+.rowcontainer {
+  width: 50%;
+}
+.contact-advisor-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Adds spacing between form elements */
+}
+
+.contact-advisor-form label {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.contact-submit {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.contact-submit:hover {
+  background-color: #0056b3;
+}
+
+.vipMember .row6 {
+  margin-top: 4rem;
+  padding: 0rem 5rem 0rem 5rem;
+  display: flex;
+  flex-direction: row; /* Stacks child elements vertically */
+  align-items: center; /* Centers content horizontally */
+  gap: 16px; /* Adds space between the columns */
+}
+
+.vipMember .column7,
+.vipMember .column8 {
+  width: 100%; /* Ensures full width for each column */
+}
+
+@media (max-width: 768px) {
+  .welcome img {
+    max-width: 100%;
+    height: auto;
+  }
+}
