@@ -138,14 +138,20 @@ const Calculator = () => {
                 />
               </Box>
             </Box>
-            <Button variant="contained" color="primary" onClick={calculateLoan}>
-              Submit
-            </Button>
+            <div className="contactus-buttons">
+              <Button
+                variant="contained"
+                sx={{ alignItems: "center", backgroundColor: "black" }}
+                onClick={calculateLoan}
+              >
+                Calculate{" "}
+              </Button>
+            </div>
           </Box>
         </Box>
       </div>
       <div className="loanResult">
-        <Box sx={{ textAlign: "center", mt: 4, padding: 4 }}>
+        <Box sx={{ textAlign: "center", mt: 4, paddingBottom: 4 }}>
           <Typography variant="h4" gutterBottom>
             Loan Results
           </Typography>

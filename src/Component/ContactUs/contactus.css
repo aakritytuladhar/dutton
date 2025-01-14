@@ -25,56 +25,67 @@
 .contactus-contactInformation,
 .contactus-connectus,
 .contactus-insta {
+  margin: 2rem 0rem;
   width: 80%;
-  /* display: flex; */
   align-items: center;
   justify-content: center;
 }
+
 .contactTitle {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
+
 .contactTitle h5,
 .contactTitle p {
   margin: 0;
 }
+
 .contactus-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
   width: 100%;
 }
+
 .contactus-form .row {
   display: flex;
   justify-content: space-between;
   gap: 30px;
 }
+
 .contactus-form .field {
   display: flex;
   flex-direction: column;
   width: 48%;
 }
+
 .contactus-buttons {
   display: flex;
   justify-content: center;
   width: 100%;
 }
+
 .contactFormDiv {
   margin-top: 1rem;
 }
+
 .contactFormDiv label {
   font-weight: 600;
 }
+
 .contactus-contactInformation {
   text-align: center;
 }
+
 .contactus-contactInfoImg {
   display: flex;
   justify-content: center;
   gap: 35%;
   margin-top: 10px;
 }
+
 .contactus-contactInfoImg > div {
   display: flex;
   flex-direction: column;
@@ -99,21 +110,101 @@
   object-fit: contain;
   border-radius: 50%;
 }
+
 .contactus-contactInfoImg > div p {
   margin: 5px 0;
 }
+
 .contactus-p {
-  color: #999; /* Light gray color */
+  color: #999;
   font-size: 14px;
   margin: 5px 0;
 }
+
 .contactus-a {
   margin-top: 5px;
   color: #999;
   text-decoration: none;
 }
+
 .contactus-connectus {
   display: flex;
   flex-direction: column;
   gap: 2px;
+}
+
+/* Media Queries for Responsiveness */
+
+/* For Tablets (768px - 1024px) */
+@media (max-width: 1024px) {
+  .contactTitle,
+  .contactFormDiv,
+  .contactus-Map,
+  .contactus-contactInformation,
+  .contactus-connectus,
+  .contactus-insta {
+    width: 90%; /* Make elements wider */
+  }
+
+  .contactus-form .row {
+    flex-direction: column; /* Stack the fields vertically */
+  }
+
+  .contactus-form .field {
+    width: 100%; /* Make form fields full width */
+  }
+
+  .contactus-contactInfoImg {
+    gap: 20%; /* Adjust gap for better spacing */
+  }
+
+  .contactus-contactInfoImg > div {
+    width: 100%; /* Make contact info sections take full width */
+  }
+
+  .contactus-p {
+    font-size: 12px; /* Adjust text size for smaller screens */
+  }
+}
+
+/* For Phones (below 768px) */
+@media (max-width: 768px) {
+  .contactMainDiv {
+    padding: 1rem; /* Reduce padding on mobile */
+  }
+
+  .contactTitle,
+  .contactFormDiv,
+  .contactus-Map,
+  .contactus-contactInformation,
+  .contactus-connectus,
+  .contactus-insta {
+    width: 100%; /* Make elements take up full width */
+  }
+
+  .contactus-form .row {
+    flex-direction: column; /* Stack form fields vertically */
+    gap: 20px;
+  }
+
+  .contactus-form .field {
+    width: 100%; /* Full width for form fields */
+  }
+
+  .contactus-contactInfoImg {
+    gap: 15%; /* Reduce gap for mobile */
+  }
+
+  .ovalImg {
+    width: 80px; /* Make image smaller */
+    height: 80px;
+  }
+
+  .contactus-p {
+    font-size: 12px; /* Adjust font size */
+  }
+
+  .contactus-a {
+    font-size: 12px; /* Smaller text for mobile */
+  }
 }

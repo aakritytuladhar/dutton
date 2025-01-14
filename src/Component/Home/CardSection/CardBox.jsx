@@ -1,11 +1,12 @@
 import React from "react";
 import {
+  Grid,
   Card,
-  CardContent,
-  Typography,
   CardActionArea,
+  CardContent,
   CardMedia,
-} from "@mui/material"; // Correct
+  Typography,
+} from "@mui/material";
 
 import img from "../../Assets/carosal2.jpg";
 const CardBox = () => {
@@ -40,26 +41,37 @@ const CardBox = () => {
   ];
   return (
     <div style={{ display: "flex", flexWrap: "wrap", gap: "2.6%" }}>
-      {cardsData.map((card) => (
-        <Card sx={{ maxWidth: 320 }} key={card.id}>
-          <CardActionArea>
-            <CardMedia
-              component="img"
-              height="140"
-              image={card.images}
-              alt={card.title}
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {card.title}
-              </Typography>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
-                {card.description}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
-      ))}
+      <Grid container spacing={2}>
+        {cardsData.map((card) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} key={card.id}>
+            <Card
+              sx={{
+                maxWidth: 320,
+                display: "flex",
+                flexDirection: "column",
+                height: "100%",
+              }}
+            >
+              <CardActionArea sx={{ flexGrow: 1 }}>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image={card.images}
+                  alt={card.title}
+                />
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {card.title}
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: "text.secondary" }}>
+                    {card.description}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
     </div>
   );
 };

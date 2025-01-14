@@ -1,6 +1,7 @@
 import React from "react";
 import "./novatedFleet.css";
 import img3 from "../Assets/car pics/car-63930.jpg";
+import { ViewInAr } from "@mui/icons-material";
 const NovatedFleet = () => {
   return (
     <div className="novatedFleetMain">
@@ -95,6 +96,41 @@ const NovatedFleet = () => {
           an individual looking for a novated lease or a business in need of
           fleet management solutions, we have you covered.
         </p>
+      </div>
+      <div class="features">
+        <div class="feature-card">
+          <div class="icon">
+            {" "}
+            <ViewInAr />
+          </div>
+          <h3>Novated Leasing for Tax Savings</h3>
+          <p>
+            Our novated leasing program provides tax-saving benefits for
+            employees, allowing them to finance their vehicles with pre-tax
+            dollars.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">
+            {" "}
+            <ViewInAr />
+          </div>
+          <h3>Comprehensive Fleet Management Solutions</h3>
+          <p>
+            For businesses, we offer comprehensive fleet management solutions to
+            streamline operations and reduce costs.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">
+            <ViewInAr />
+          </div>
+          <h3>Expert Guidance and Support</h3>
+          <p>
+            Our team of experts is here to provide guidance and support
+            throughout the entire vehicle acquisition and financing process.
+          </p>
+        </div>
       </div>
     </div>
   );

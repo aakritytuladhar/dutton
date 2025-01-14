@@ -2,6 +2,7 @@
   margin-top: 5rem;
   padding: 0rem 5rem 0rem 5rem;
 }
+
 .about-us-main .container {
   display: flex;
   flex-direction: column;
@@ -31,7 +32,7 @@
 .about-us-main .row1 {
   display: flex;
   flex-direction: column; /* Stacks children vertically */
-  align-items: flex-start; /* Aligns items to the left (or you can change this as needed) */
+  align-items: center; /* Aligns items to the left (or you can change this as needed) */
 }
 
 .about-us-main h3,
@@ -39,9 +40,11 @@
 .about-us-main button {
   margin: 10px 0; /* Adds some spacing between the elements */
 }
+
 .about-us-main .row1 p {
   width: 55%;
 }
+
 .column2 img,
 .column4 img,
 .column8 img {
@@ -50,9 +53,11 @@
   height: 457px;
   object-fit: cover;
 }
+
 .rowTitle {
   text-align: center;
 }
+
 .grid-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 columns per row */
@@ -91,7 +96,6 @@
   position: relative;
   margin: 20px auto;
   padding: 20px 0;
-  /* width: 80%; */
 }
 
 .timeline-item {
@@ -146,10 +150,115 @@
   margin: 5px 0 0;
   color: #555;
 }
-@media (max-width: 768px) {
-  .column2 img,
-  .column8 img .column4 img {
-    max-width: 100%;
-    height: 200px;
+
+@media (max-width: 1024px) {
+  .about-us-main .container {
+    padding: 10px; /* Adjust padding for medium-sized screens */
   }
+
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns per row */
+  }
+
+  .column2 img,
+  .column4 img,
+  .column8 img {
+    height: 300px; /* Reduce image size */
+  }
+
+  .about-us-main h3,
+  .about-us-main .row1 p {
+    width: 70%; /* Adjust text width */
+  }
+
+  .about-us-main .row1 {
+    align-items: center; /* Center align for better presentation */
+  }
+}
+
+@media (max-width: 768px) {
+  .about-us-main {
+    padding: 0 2rem; /* Reduced padding */
+  }
+
+  .about-us-main .row1 {
+    align-items: center; /* Center content */
+  }
+
+  .about-us-main .row,
+  .about-us-main .row2,
+  .about-us-main .row3 {
+    flex-direction: column; /* Stack columns vertically */
+    gap: 15px; /* Reduced gap between columns */
+  }
+
+  .about-us-main h3,
+  .about-us-main .row1 p {
+    width: 100%; /* Make text take up full width */
+  }
+
+  .grid-container {
+    grid-template-columns: 1fr; /* 1 column per row for mobile */
+  }
+
+  .column2 img,
+  .column4 img,
+  .column8 img {
+    height: 200px; /* Further reduced image size */
+  }
+
+  .timeline-content h3 {
+    font-size: 16px; /* Adjust font size for smaller screens */
+  }
+
+  .timeline-icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-us-main .container {
+    padding: 5px; /* Further reduced padding */
+  }
+
+  .box {
+    padding: 15px; /* Reduce padding in the box */
+  }
+
+  .box-image {
+    width: 60px;
+    height: 60px; /* Adjust the box image size */
+  }
+
+  .social-links a {
+    font-size: 14px; /* Adjust social link font size */
+  }
+
+  .about-us-main h3,
+  .about-us-main .row1 p {
+    width: 90%; /* Take up more space on smaller screens */
+  }
+
+  .timeline-content h3 {
+    font-size: 14px; /* Reduce font size further */
+  }
+
+  .timeline-icon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .about-us-main .row1 button {
+    width: 100%; /* Make button take up full width */
+  }
+}
+
+.img-shadow {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Add shadow around images */
+  border-radius: 8px; /* Optional: rounds the corners of the image */
+}
+
+.img-shadow:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
 }

@@ -5,7 +5,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import CardActionArea from "@mui/material/CardActionArea";
-import { FormControl, TextField, Button } from "@mui/material";
+import { FormControl, TextField, Button, Alert } from "@mui/material";
 import shield from "../Assets/Shield Eye.png";
 import protection from "../Assets/Document Protection.png";
 import applicationProcess from "../Assets/Placeholder Image.png";
@@ -16,6 +16,11 @@ import personalLoan from "../Assets/loan 2.png";
 const OnlineApplication = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [selectedCarType, setSelectedCarType] = useState(""); // Track selected car type
+  const [alertMessage, setAlertMessage] = useState(""); // State for alert message
+  const [alertSeverity, setAlertSeverity] = useState(""); // State for alert severity
+  const [showAlert, setShowAlert] = useState(false); // State for controlling alert visibility
+
   const cardData = [
     {
       title: "Car Loans",
@@ -33,14 +38,47 @@ const OnlineApplication = () => {
       image: loan,
     },
   ];
-  const buttonLabels = ["Sedan", "SUV", "Truck "];
+
+  const buttonLabels = ["Sedan", "SUV", "Truck"];
+
+  // Email validation regex
+  const validateEmail = (email) => {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return regex.test(email);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check if username, email, and car type are valid
+    if (username === "" || email === "" || !validateEmail(email)) {
+      setAlertMessage("Please fill out all fields with valid data!");
+      setAlertSeverity("error");
+      setShowAlert(true);
+
+      // Hide the alert after 10 seconds
+      setTimeout(() => setShowAlert(false), 10000);
+    } else if (selectedCarType === "") {
+      setAlertMessage("Please select a car type.");
+      setAlertSeverity("error");
+      setShowAlert(true);
+
+      // Hide the alert after 10 seconds
+      setTimeout(() => setShowAlert(false), 10000);
+    } else {
+      setAlertMessage("Your application has been submitted successfully.");
+      setAlertSeverity("success");
+      setShowAlert(true);
+
+      // Hide the alert after 10 seconds
+      setTimeout(() => setShowAlert(false), 10000);
+    }
   };
+
   return (
     <div className="onlineApplicationMainDiv">
-      <div class="onlineApplicationMainRow">
-        <div class="onlineApplicationMaincolumn">
+      <div className="onlineApplicationMainRow">
+        <div className="onlineApplicationMaincolumn">
           <h1>Popular Loan Options</h1>
           <div
             style={{
@@ -73,7 +111,7 @@ const OnlineApplication = () => {
             ))}
           </div>
         </div>
-        <div class="onlineApplicationMaincolumn">
+        <div className="onlineApplicationMaincolumn">
           <h1>Car Loans Application</h1>
           <p>Provide Your Personal And Financial Details</p>
           <div className="onlineApplicationDiv">
@@ -96,13 +134,26 @@ const OnlineApplication = () => {
                   <label>Email</label>
                   <TextField
                     size="small"
-                    value={username}
+                    value={email}
                     placeholder="Enter your email"
                     onChange={(e) => setEmail(e.target.value)}
                     required
+                    error={!validateEmail(email) && email !== ""}
+                    helperText={
+                      !validateEmail(email) && email !== ""
+                        ? "Invalid email"
+                        : ""
+                    }
                   />
                 </div>
               </div>
+
+              {/* Show MUI Alert based on form validation */}
+              {showAlert && (
+                <Alert severity={alertSeverity} sx={{ marginTop: "20px" }}>
+                  {alertMessage}
+                </Alert>
+              )}
 
               <div className="onlineApplication-buttons">
                 <label>Car Type</label>
@@ -111,14 +162,18 @@ const OnlineApplication = () => {
                     <Button
                       key={index}
                       variant="contained"
-                      color="primary"
+                      color={
+                        selectedCarType === label ? "secondary" : "primary"
+                      }
                       style={{ margin: "10px" }}
+                      onClick={() => setSelectedCarType(label)}
                     >
                       {label}
                     </Button>
                   ))}
                 </div>
               </div>
+
               <div className="contonlineApplicationactus-submitbuttons">
                 <Button
                   variant="contained"
@@ -131,9 +186,9 @@ const OnlineApplication = () => {
             </FormControl>
           </div>
         </div>
-        <div class="onlineApplicationMaincolumn">
-          <div class="applicationProcess">
-            <div class="applicationProcessCol">
+        <div className="onlineApplicationMaincolumn">
+          <div className="applicationProcess">
+            <div className="applicationProcessCol">
               <h2>Simple and Secure Online Application Process</h2>
               <p>
                 Our online application process is designed to be user-friendly
@@ -159,7 +214,7 @@ const OnlineApplication = () => {
                 </div>
               </div>
             </div>
-            <div class="applicationProcessCol">
+            <div className="applicationProcessCol">
               <img src={applicationProcess} className="applicationImg" />
             </div>
           </div>

@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../Login/login.css";
 import axios from "axios";
 import wallapaper from "../Assets/signin.jpg";
-import { IconButton, TextField, Button, Checkbox } from "@mui/material";
+import {
+  IconButton,
+  TextField,
+  Button,
+  Checkbox,
+  Alert,
+  AlertTitle,
+} from "@mui/material";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
@@ -24,6 +31,7 @@ const SignUp = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setConfirmShowPassword] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const isVip = vipCode === "DUTTON2024";
   const navigate = useNavigate();
@@ -38,6 +46,7 @@ const SignUp = () => {
       if (response.data.message === "OTP sent successfully") {
         setOtpSent(true);
         setOtpTimer(30);
+        setSuccessMessage("OTP sent successfully.");
         const timer = setInterval(() => {
           setOtpTimer((prev) => {
             if (prev === 1) clearInterval(timer);
@@ -45,11 +54,9 @@ const SignUp = () => {
           });
         }, 1000);
       } else {
-        alert(response.data.message);
         setErrorMessage(response.data.message);
       }
     } catch (error) {
-      alert("Error sending OTP.");
       setErrorMessage("Error sending OTP.");
     }
   };
@@ -68,19 +75,8 @@ const SignUp = () => {
           address,
           vipCode,
         },
-        { withCredentials: true } // Include credentials for sessions
+        { withCredentials: true }
       );
-      // const { message, isVip } = response.data;
-      const userData = {
-        username,
-        password,
-        confirmPassword,
-        email,
-        contact,
-        address,
-        isVip,
-      };
-      console.log("12", response.data.message);
       if (response.data.message === "User registered successfully") {
         const userData = {
           username,
@@ -90,19 +86,18 @@ const SignUp = () => {
           isVip,
         };
         localStorage.setItem("userData", JSON.stringify(userData));
-        alert("Registration successful!");
-        if (isVip) {
-          navigate("/vipHome");
-        } else {
-          navigate("/");
-        }
-        // }
+        setSuccessMessage("Registration successful!");
+        setTimeout(() => {
+          if (isVip) {
+            navigate("/login");
+          } else {
+            navigate("/");
+          }
+        }, 2000);
       } else {
-        alert(response.data.message);
         setErrorMessage(response.data.message);
       }
     } catch (error) {
-      alert("Registration failed. Please try again.");
       setErrorMessage("Registration failed. Please try again.");
     }
   };
@@ -122,17 +117,26 @@ const SignUp = () => {
         }
       );
       if (response.data.message === "User registered successfully") {
-        alert("Registration successful!");
-        navigate("/login");
+        setSuccessMessage("Registration successful!");
+        setTimeout(() => navigate("/login"), 2000);
       } else {
-        alert(response.data.message);
         setErrorMessage(response.data.message);
       }
     } catch (error) {
-      alert("Registration failed. Please try again.");
       setErrorMessage("Registration failed. Please try again.");
     }
   };
+
+  // Automatically dismiss success or error alert after 30 seconds
+  useEffect(() => {
+    if (successMessage || errorMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage("");
+        setErrorMessage("");
+      }, 20000); // 30 seconds
+      return () => clearTimeout(timer); // Cleanup on unmount
+    }
+  }, [successMessage, errorMessage]);
 
   return (
     <div className="signInDiv">
@@ -192,7 +196,8 @@ const SignUp = () => {
                     endAdornment={
                       <InputAdornment position="end">
                         <IconButton
-                          onClick={() => setShowPassword((prev) => !prev)}>
+                          onClick={() => setShowPassword((prev) => !prev)}
+                        >
                           {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
                       </InputAdornment>
@@ -211,7 +216,8 @@ const SignUp = () => {
                         <IconButton
                           onClick={() =>
                             setConfirmShowPassword((prev) => !prev)
-                          }>
+                          }
+                        >
                           {showConfirmPassword ? (
                             <VisibilityOff />
                           ) : (
@@ -241,7 +247,8 @@ const SignUp = () => {
                     type="button"
                     variant="contained"
                     sx={{ width: "100%", backgroundColor: "black" }}
-                    onClick={handleSendOtp}>
+                    onClick={handleSendOtp}
+                  >
                     Send OTP
                   </Button>
                   {otpSent && (
@@ -258,24 +265,25 @@ const SignUp = () => {
                         type="button"
                         variant="contained"
                         sx={{ width: "100%", backgroundColor: "black" }}
-                        onClick={handleVerifyOtp}>
-                        Verify OTP
+                        onClick={handleVerifyOtp}
+                      >
+                        Verify OTP and Sign Up
                       </Button>
                     </>
                   )}
-                  {errorMessage && (
-                    <p style={{ color: "red", textAlign: "center" }}>
-                      {errorMessage}
-                    </p>
+                  {successMessage && (
+                    <Alert severity="success" sx={{ marginTop: 2 }}>
+                      <AlertTitle>Success</AlertTitle>
+                      {successMessage}
+                    </Alert>
                   )}
-                  <Button
-                    type="button"
-                    variant="contained"
-                    sx={{ width: "100%", backgroundColor: "black" }}
-                    onClick={handleSubmit}
-                    disabled={!otpSent || otpTimer > 0 || otp !== "123456"}>
-                    Sign Up
-                  </Button>
+
+                  {errorMessage && (
+                    <Alert severity="error" sx={{ marginTop: 2 }}>
+                      <AlertTitle>Error</AlertTitle>
+                      {errorMessage}
+                    </Alert>
+                  )}
                 </form>
               </div>
               <p>

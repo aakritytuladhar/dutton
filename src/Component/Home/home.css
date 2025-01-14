@@ -1,3 +1,4 @@
+/* General Styles */
 .carosalText {
   margin-top: 3rem;
   padding: 2rem;
@@ -5,35 +6,45 @@
   grid-template-columns: 1fr 1fr;
   grid-template-areas: "left right";
 }
+
 .carosalLeft {
   padding: 0rem 9rem 0rem 3rem;
   grid-area: left;
 }
+
 .carosalLeft h1 {
   font-weight: 800;
   font-size: 44px;
 }
+
 .carosalRight {
   grid-area: right;
 }
+
 .carosalRight p {
   padding: 0rem 2rem 0rem 2rem;
   font-size: larger;
 }
+
+/* Card Section */
 .cardSection {
-  padding: 2rem;
+  padding: 4rem;
 }
+
 .cardSection .cardText {
   width: 44%;
   margin: 0rem 1rem 5rem 1rem;
 }
+
 .cardSection h1 {
   font-weight: 400;
   font-size: 41px;
 }
+
 .cardDiv {
   margin: 2rem;
 }
+
 .brandDiv .brandContainer {
   display: flex;
   flex-direction: column;
@@ -41,27 +52,31 @@
   justify-content: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 5%;
-  /* background: ", */
   padding: 20px;
   height: 200px;
 }
+
 .brandContainer .brandImg {
   width: 45%;
   height: auto;
   margin-bottom: 5px;
 }
+
 .brandContainer h3 {
   font-size: 16px;
   text-align: center;
 }
+
 .brandDiv h1 {
   text-align: center;
   font-weight: 800;
 }
-/* VIP */
+
+/* VIP Section */
 .vip-home-main {
   margin-top: 5rem;
 }
+
 .vip-home-main .welcome {
   background-color: black;
   color: white;
@@ -70,14 +85,16 @@
   justify-content: space-between;
   height: 6rem;
 }
+
 .welcome img {
-  /* width: 50%; */
   height: 110px;
   object-fit: cover;
 }
+
 .explusiveDeals {
   padding: 0rem 5rem 0rem 5rem;
 }
+
 .contact-advisor {
   margin-top: 5rem;
   padding: 1rem;
@@ -87,13 +104,13 @@
 
 .contact-container {
   display: flex;
-  gap: 20px; /* Adds space between columns */
-  flex-wrap: wrap; /* Ensures responsiveness */
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .contact-container .column {
-  flex: 1; /* Distributes equal width for both columns */
-  min-width: 300px; /* Ensures columns don't shrink too much on smaller screens */
+  flex: 1;
+  min-width: 300px;
 }
 
 .contact-container .row-column {
@@ -107,10 +124,11 @@
 .rowcontainer {
   width: 50%;
 }
+
 .contact-advisor-form {
   display: flex;
   flex-direction: column;
-  gap: 16px; /* Adds spacing between form elements */
+  gap: 16px;
 }
 
 .contact-advisor-form label {
@@ -131,23 +149,110 @@
   background-color: #0056b3;
 }
 
-.vipMember .row6 {
-  margin-top: 4rem;
-  padding: 0rem 5rem 0rem 5rem;
-  display: flex;
-  flex-direction: row; /* Stacks child elements vertically */
-  align-items: center; /* Centers content horizontally */
-  gap: 16px; /* Adds space between the columns */
-}
+/* Media Queries for Responsiveness */
+@media (max-width: 1024px) {
+  /* Make carosal text sections stack on top of each other */
+  .carosalText {
+    grid-template-columns: 1fr;
+    grid-template-areas: "left" "right";
+  }
 
-.vipMember .column7,
-.vipMember .column8 {
-  width: 100%; /* Ensures full width for each column */
+  .carosalLeft {
+    padding: 0rem 3rem 0rem 3rem;
+  }
+
+  .cardSection .cardText {
+    width: 100%;
+    margin: 0rem;
+  }
+
+  /* Card section: stack cards on smaller screens */
+  .cardDiv {
+    margin: 1rem;
+  }
+
+  /* Brand section */
+  .brandContainer {
+    height: 160px;
+    margin-bottom: 1rem;
+  }
+
+  /* Contact section: make contact container stack on mobile */
+  .contact-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .contact-container .column {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .contact-advisor-form label,
+  .contact-submit {
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 768px) {
+  .carosalLeft h1 {
+    font-size: 32px;
+  }
+
+  .carosalRight p {
+    font-size: 1.2rem;
+  }
+
+  .cardSection .cardText {
+    font-size: 1.4rem;
+  }
+
+  .cardDiv {
+    margin: 1rem;
+    width: 100%;
+  }
+
+  /* Brand section */
+  .brandContainer .brandImg {
+    width: 60%;
+  }
+
+  /* VIP section */
   .welcome img {
     max-width: 100%;
     height: auto;
+  }
+
+  .contact-advisor-form label {
+    font-size: 14px;
+  }
+
+  .contact-submit {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Further adjustments for very small screens */
+  .carosalLeft h1 {
+    font-size: 24px;
+  }
+
+  .carosalRight p {
+    font-size: 1rem;
+  }
+
+  .brandContainer h3 {
+    font-size: 14px;
+  }
+
+  .vip-home-main .welcome {
+    flex-direction: column;
+    height: auto;
+    padding: 1rem;
+  }
+
+  .contact-submit {
+    padding: 10px;
   }
 }

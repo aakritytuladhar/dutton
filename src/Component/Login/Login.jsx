@@ -1,103 +1,99 @@
 import React, { useEffect, useState } from "react";
 import "./login.css";
 import Dialog from "@mui/material/Dialog";
-
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 import axios from "axios";
 import wallapaper from "../Assets/login.png";
 import {
   IconButton,
   FormControl,
-  Switch,
   TextField,
   Button,
+  OutlinedInput,
+  InputAdornment,
 } from "@mui/material";
-
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import logo from "../Assets/Frame.png";
-import google from "../Assets/google.png";
 import { useNavigate } from "react-router-dom";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
-  const [checked, setChecked] = useState(false);
+
+  // Snackbar state
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   const navigate = useNavigate();
+
   useEffect(() => {
     const rememberMe = localStorage.getItem("rememberMe");
     if (rememberMe === "true") {
-      setChecked(true);
+      setUsername(localStorage.getItem("username") || "");
     }
   }, []);
 
-  // Handle the switch toggle
-  const handleSwitchChange = (event) => {
-    setChecked(event.target.checked);
-    localStorage.setItem("rememberMe", event.target.checked); // Store the value in localStorage
-  };
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => event.preventDefault();
 
-  const handleMouseUpPassword = (event) => event.preventDefault();
-
-  const label = { inputProps: { "aria-label": "Switch demo" } };
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
         "http://localhost:8080/duttonphp/LoginApi.php",
-        {
-          username,
-          password,
-        }
+        { username, password }
       );
 
       const data = response.data;
-      console.log("data", data);
+
       if (data.message === "Login successful") {
-        const storedUser = localStorage.getItem("userData");
+        setSnackbarMessage("Login successful!");
+        setSnackbarSeverity("success");
+        setSnackbarOpen(true);
 
-        const jsonData = data ? JSON.parse(storedUser) : {};
-        console.log("1", jsonData);
-        alert("Login successful");
+        // VIP navigation logic
         if (data.vip === "DUTTON2024") {
-          sessionStorage.setItem("isVip", true); // Store VIP status for session.
-
+          sessionStorage.setItem("isVip", true);
           navigate("/vip-home");
           window.location.reload();
         } else {
           sessionStorage.setItem("isVip", false);
-          // localStorage.setItem("isLoggedIn", "true");
-
           navigate("/");
           window.location.reload();
         }
         sessionStorage.setItem("Loggedin", JSON.stringify(true));
       } else {
-        console.log("Login failed");
-
-        setErrorMessage(data.message);
+        setSnackbarMessage(data.message || "Login failed");
+        setSnackbarSeverity("error");
+        setSnackbarOpen(true);
       }
     } catch (error) {
-      console.error("Error during login", error);
-      setErrorMessage("An error occurred during login");
+      setSnackbarMessage("An error occurred during login");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
     }
   };
+
   const handleSignInPage = (e) => {
     e.preventDefault();
     navigate("/signup");
   };
+
   return (
     <div className="loginDiv">
-      {" "}
       <Dialog
         open={open}
         aria-labelledby="alert-dialog-title"
@@ -148,10 +144,8 @@ const Login = () => {
                                 ? "hide the password"
                                 : "display the password"
                             }
-                            required
                             onClick={handleClickShowPassword}
                             onMouseDown={handleMouseDownPassword}
-                            onMouseUp={handleMouseUpPassword}
                             edge="end"
                           >
                             {showPassword ? <VisibilityOff /> : <Visibility />}
@@ -161,16 +155,6 @@ const Login = () => {
                     />
                     <div className="buttons">
                       <div className="toggleDiv">
-                        <div className="rememberDiv">
-                          <Switch
-                            checked={checked}
-                            onChange={handleSwitchChange}
-                            name="rememberMe"
-                            inputProps={{ "aria-label": "Remember me switch" }}
-                          />
-                          <p>Remember me</p>
-                        </div>
-
                         <a href="#" className="signupLink">
                           Forgot Password?
                         </a>
@@ -187,7 +171,7 @@ const Login = () => {
                 </div>
                 <div className="signupNow">
                   <p>
-                    Dont have an account?{" "}
+                    Don’t have an account?{" "}
                     <a
                       href="#"
                       className="signupLink"
@@ -206,6 +190,22 @@ const Login = () => {
           </div>
         </div>
       </Dialog>
+
+      {/* Snackbar for alerts */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
