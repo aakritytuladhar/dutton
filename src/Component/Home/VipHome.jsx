@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import watch from "../Assets/watch.jpg";
-import "./home.css";
 import car3 from "../Assets/car pics/car-63930.jpg";
-
+import img from "../Assets/carosal2.jpg";
 import {
   Card,
   CardContent,
@@ -10,8 +9,11 @@ import {
   CardActionArea,
   CardMedia,
   TextField,
+  Alert,
+  Button,
 } from "@mui/material";
-import img from "../Assets/carosal2.jpg";
+import "./home.css";
+
 const cardsData = [
   {
     id: 1,
@@ -32,7 +34,29 @@ const cardsData = [
     description: "$100,000",
   },
 ];
+
 const VipHome = () => {
+  const [message, setMessage] = useState("");
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = () => {
+    if (!message || !email) {
+      setError(true);
+      setSuccess(false); // Hide success alert if fields are empty
+    } else {
+      setError(false);
+      setSuccess(true); // Show success alert if validation passes
+      // Add your submit logic here
+      console.log("Form submitted:", { message, email });
+
+      // Clear fields after submission
+      setMessage("");
+      setEmail("");
+    }
+  };
+
   return (
     <div className="vip-home-main">
       <div className="welcome">
@@ -67,43 +91,55 @@ const VipHome = () => {
       </div>
       <div className="contact-advisor">
         <div className="contact-container">
-          {/* First Column: Row */}
-          {/* <div className="column row-column"> */}
-          {/* <div className="row"> */}
           <div className="rowcontainer">
-            {" "}
             <h2>Contact Advisor</h2>
             <br />
             <p>Reach out to our financial advisors for personalized support.</p>
           </div>
-
-          {/* </div> */}
-          {/* </div> */}
-
-          {/* Second Column: Contact Advisor Form */}
           <div className="column form-column">
             <div className="contact-advisor-form">
+              {error && (
+                <Alert severity="error" sx={{ mb: 2 }}>
+                  All fields are required.
+                </Alert>
+              )}
+              {success && (
+                <Alert severity="success" sx={{ mb: 2 }}>
+                  Email sent successfully!
+                </Alert>
+              )}
               <label htmlFor="message">Message</label>
               <TextField
                 id="message"
                 placeholder="Enter your message here"
-                sx={{ backgroundColor: "white", width: "100%" }}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                sx={{ backgroundColor: "white", width: "100%", mb: 2 }}
               />
               <label htmlFor="email">Email</label>
               <TextField
                 id="email"
                 type="email"
                 placeholder="Enter your email here"
-                sx={{ backgroundColor: "white", width: "100%" }}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                sx={{ backgroundColor: "white", width: "100%", mb: 2 }}
               />
-              <button className="contact-submit">Submit</button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit}
+                className="contact-submit"
+              >
+                Submit
+              </Button>
             </div>
           </div>
         </div>
       </div>
       <div className="vipMember">
-        <div className="row6">
-          <div className="column7">
+        <div className="columnvipMember">
+          <div className="content">
             <h3>
               Unlock Exclusive Deals and Personalized Financial Offers as a VIP
               Member
@@ -116,9 +152,8 @@ const VipHome = () => {
               the way.
             </p>
           </div>
-          <div className="column8">
-            {" "}
-            <img src={car3} alt="car-about-us" />
+          <div className="image">
+            <img src={car3} alt="car-about-us" className="vipImg" />
           </div>
         </div>
       </div>

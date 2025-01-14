@@ -56,7 +56,8 @@
   height: 200px;
 }
 
-.brandContainer .brandImg {
+.brandContainer .brandImg,
+.vipImg {
   width: 45%;
   height: auto;
   margin-bottom: 5px;
@@ -97,7 +98,7 @@
 
 .contact-advisor {
   margin-top: 5rem;
-  padding: 1rem;
+  padding: 3rem 5rem 3rem 5rem;
   background-color: black;
   color: white;
 }
@@ -254,5 +255,75 @@
 
   .contact-submit {
     padding: 10px;
+  }
+}
+.vipMember {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px; /* Add padding around the container */
+  background-color: #f9f9f9; /* Optional: background for visual separation */
+}
+
+.columnvipMember {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; /* Ensures responsiveness on smaller screens */
+  gap: 20px; /* Space between the content and image */
+  max-width: 1200px; /* Optional: limit the width for better layout */
+  width: 100%; /* Ensures full width within the container */
+}
+
+.content {
+  flex: 1; /* Allows the content to take equal space */
+  text-align: left; /* Align text to the left */
+  padding: 10px; /* Optional: Add padding inside the content */
+}
+
+.content h3 {
+  font-size: 24px; /* Adjust heading size */
+  margin-bottom: 15px; /* Space between heading and paragraph */
+}
+
+.content p {
+  font-size: 16px; /* Adjust paragraph font size */
+  line-height: 1.5; /* Improves readability */
+}
+
+.image {
+  flex: 1; /* Allows the image to take equal space */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vipImg {
+  width: 100%; /* Ensure the image fits its container */
+  height: 400px; /* Maintain aspect ratio */
+  object-fit: cover; /* Ensures image covers the container area */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Add shadow around images */
+  border-radius: 8px; /* Optional: rounds the corners of the image */
+}
+
+.vipImg:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .columnvipMember {
+    flex-direction: column; /* Stack content and image vertically */
+    text-align: center; /* Center-align for smaller screens */
+  }
+
+  .content,
+  .image {
+    flex: unset; /* Reset flex for stacking */
+    width: 100%; /* Full width for both sections */
+  }
+
+  .vipImg {
+    max-height: 300px; /* Limit the image height on smaller screens */
   }
 }

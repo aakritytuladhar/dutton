@@ -45,9 +45,12 @@ const Navbar = () => {
 
   // Handle navigation
   const handleNavigation = (path) => {
-    navigate(path);
+    if (isVip && path === "/") {
+      navigate("/vip-home");
+    } else {
+      navigate(path);
+    }
   };
-
   // Handle log out
   const handleLogOut = () => {
     sessionStorage.removeItem("Loggedin"); // Remove login status
@@ -126,7 +129,11 @@ const Navbar = () => {
         }}
       >
         {/* Logo */}
-        <img src={logo} alt="logo" width={60} onClick={handleLogo} />
+        {isVip ? (
+          <h1 style={{ color: "black" }}>DUTTON FINANCE</h1>
+        ) : (
+          <img src={logo} alt="logo" width={60} onClick={handleLogo} />
+        )}
 
         {/* Desktop Navigation Links */}
         <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
